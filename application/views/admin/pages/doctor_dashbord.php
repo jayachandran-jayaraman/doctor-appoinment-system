@@ -43,20 +43,66 @@
                                 $sickness = $appointment->description;
                             } elseif (!empty($appointment->medical_condition)) {
                                 $sickness = $appointment->medical_condition;
+                            } elseif (!empty($appointment->illness)) {
+                                $sickness = $appointment->illness;
+                            }
+                            
+                            // Get patient information - check different possible field names
+                            $patientName = '';
+                            $patientEmail = '';
+                            $patientPhone = '';
+                            
+                            if (!empty($appointment->patient_name)) {
+                                $patientName = $appointment->patient_name;
+                            } elseif (!empty($appointment->firstname)) {
+                                $patientName = $appointment->firstname . ' ' . (!empty($appointment->lastname) ? $appointment->lastname : '');
+                            } elseif (!empty($appointment->name)) {
+                                $patientName = $appointment->name;
+                            }
+                            
+                            if (!empty($appointment->patient_email)) {
+                                $patientEmail = $appointment->patient_email;
+                            } elseif (!empty($appointment->email)) {
+                                $patientEmail = $appointment->email;
+                            }
+                            
+                            if (!empty($appointment->patient_phone)) {
+                                $patientPhone = $appointment->patient_phone;
+                            } elseif (!empty($appointment->phone)) {
+                                $patientPhone = $appointment->phone;
+                            } elseif (!empty($appointment->contact)) {
+                                $patientPhone = $appointment->contact;
                             }
                             ?>
                             <tr>
                                 <td>
-                                    <strong><?= htmlspecialchars($appointment->patient_name . ' ' . $appointment->patient_lastname) ?></strong>
+                                    <strong><?= !empty($patientName) ? htmlspecialchars($patientName) : 'Unknown Patient' ?></strong>
                                 </td>
                                 <td>
-                                    <small class="d-block"><?= htmlspecialchars($appointment->patient_email) ?></small>
-                                    <?php if (!empty($appointment->patient_phone)) : ?>
-                                        <small class="d-block text-muted"><?= htmlspecialchars($appointment->patient_phone) ?></small>
+                                    <?php if (!empty($patientEmail)) : ?>
+                                        <small class="d-block"><?= htmlspecialchars($patientEmail) ?></small>
+                                    <?php endif; ?>
+                                    <?php if (!empty($patientPhone)) : ?>
+                                        <small class="d-block text-muted"><?= htmlspecialchars($patientPhone) ?></small>
+                                    <?php endif; ?>
+                                    <?php if (empty($patientEmail) && empty($patientPhone)) : ?>
+                                        <small class="text-muted">No contact info</small>
                                     <?php endif; ?>
                                 </td>
-                                <td><?= date('F j, Y', strtotime($appointment->date)) ?></td>
-                                <td><?= date('g:i A', strtotime($appointment->time)) ?></td>
+                                <td>
+                                    <?php if (!empty($appointment->date)) : ?>
+                                        <?= date('F j, Y', strtotime($appointment->date)) ?>
+                                    <?php else : ?>
+                                        <span class="text-muted">N/A</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if (!empty($appointment->time)) : ?>
+                                        <?= date('g:i A', strtotime($appointment->time)) ?>
+                                    <?php else : ?>
+                                        <span class="text-muted">N/A</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <?php if (!empty($sickness)) : ?>
                                         <div class="sickness-info">
@@ -85,7 +131,7 @@
                                 <td>
                                     <div class="btn-group" role="group">
                                         <?php if ($appointmentStatus == 'pending') : ?>
-                                            <form action="<?= site_url('doctor_register/update_appointment_status') ?>" method="post" style="display: inline;">
+                                            <form action="<?= site_url('doctor_controller/update_appointment_status') ?>" method="post" style="display: inline;">
                                                 <input type="hidden" name="appointment_id" value="<?= $appointment->id ?>">
                                                 <input type="hidden" name="status" value="confirmed">
                                                 <button type="submit" class="btn btn-sm btn-success me-1" title="Confirm Appointment">
@@ -95,7 +141,7 @@
                                         <?php endif; ?>
                                         
                                         <?php if ($appointmentStatus != 'cancelled') : ?>
-                                            <form action="<?= site_url('doctor_register/cancel_appointment/' . $appointment->id) ?>" method="post" style="display: inline;">
+                                            <form action="<?= site_url('doctor_controller/cancel_appointment/' . $appointment->id) ?>" method="post" style="display: inline;">
                                                 <input type="hidden" name="appointment_id" value="<?= $appointment->id ?>">
                                                 <button type="submit" class="btn btn-sm btn-danger me-1" 
                                                         onclick="return confirm('Are you sure you want to cancel this appointment?')"
@@ -130,7 +176,7 @@
         </div>
         <div class="d-flex justify-content-between align-items-center mt-3">
             <div class="text-muted">Showing <?= isset($appointments) ? count($appointments) : 0 ?> appointments</div>
-            <a href="<?= site_url('doctor_register/all_appointments') ?>" class="btn btn-outline-primary">
+            <a href="<?= site_url('doctor_controller/all_appointments') ?>" class="btn btn-outline-primary">
                 <i class="fas fa-list"></i> View All Appointments
             </a>
         </div>
