@@ -48,7 +48,38 @@ public function logout(){
     $this->session->sess_destroy();
 
 }
-   
+// public function getMergedAdminData() {
+//     $this->db->select('
+//         doctor.id AS doctor_id,
+//         doctor.firstname AS doctor_name,
+//         doctor.phone,
+//         doctor.email AS doctor_email,
+//         doctor.role,
+//         doctor.specialist,
+//         signup.id AS signup_id,
+//         signup.email AS Patient_email,
+//         signup.role,signup.firstname AS Patient_name,
+//         doc_db.id AS doc_db_id,
+//         doc_db.doctor AS doc_db_doctor_id,
+//         doc_db.user_id,
+//         doc_db.reason,doc_db.status
+//     ');
+//     $this->db->from('doc_db');
+//     $this->db->join('signup', 'signup.id = doc_db.user_id');
+//     $this->db->join('doctor', 'doctor.id = doc_db.doctor');
+//     $query = $this->db->get();
+//     return $query->result_array();
+// }
+ public function get_all_signups() {
+        return $this->db->get('signup')->result(); // Fetch all rows from signup table
+    }
+    public function getAllDoctors($order_by = 'id', $direction = 'ASC') {
+    $this->db->order_by($order_by, $direction);
+    return $this->db->get('doctor')->result_array();
+}
+public function doc_db() {
+        return $this->db->get('doc_db')->result(); // Fetch all rows from signup table
+    }
 }
 
 

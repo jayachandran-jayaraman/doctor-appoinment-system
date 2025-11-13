@@ -192,7 +192,7 @@
             <p class="mb-0">Doctor & Admin Registration</p>
         </div>
 
-        <form method="post" action="<?=base_url('admin/do_signup')?>" onsubmit="return validatePasswords()">
+        <form method="post" action="<?=base_url('admin/do_doctor_signup')?>" onsubmit="return validatePasswords()">
             <!-- Name Field -->
             <div class="row">
                 <div class="col-25">
@@ -223,6 +223,15 @@
                 <div class="col-75 input-icon">
                     <i class="fas fa-phone"></i>
                     <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                </div>
+            </div>
+             <div class="row">
+                <div class="col-25">
+                    <label for="spicialist" class="required">Spicialist</label>
+                </div>
+                <div class="col-75 input-icon">
+                    <i class="fas fa-user-doctor"></i>
+                    <input type="tel" id="spicialist" name="spicialist" placeholder="Enter your phone number" required>
                 </div>
             </div>
             <div class="row">
@@ -271,7 +280,7 @@
             </div>
 
             <div class="form-footer">
-                <p>Already have an account? <a href="<?=base_url('index/login')?>">Sign In</a></p>
+                <p>Already have an account? <a href="<?=base_url('admin/login')?>">Sign In</a></p>
             </div>
         </form>
     </div>

@@ -196,7 +196,7 @@
             <?php endif; ?>
 
             <!-- Login Form -->
-            <form action="<?= base_url('admin/do_login_admin')?>" method="POST">
+            <form action="<?= base_url('admin/do_login')?>" method="POST">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email Address</label>
                     <div class="input-group">
@@ -229,7 +229,7 @@
             <!-- Registration Section -->
             <div class="register-section text-center border-top pt-4 mt-4">
                 <p class="mb-2">Don't have an account?</p>
-                <a href="<?=base_url('admin/do_signup')?>" class="btn btn-register btn-sm">
+                <a href="<?=base_url('admin/doctor_signup')?>" class="btn btn-register btn-sm">
                     <i class="fas fa-user-plus me-2"></i> Create Account
                 </a>
             </div>

@@ -232,6 +232,8 @@
                 <i class="fas fa-user"></i>
               </div>
               <div class="patient-details">
+                <!-- <pre><?php print_r($this->session->userdata()); ?></pre> -->
+
                 <h3> <?= $firstname ?> </h3>
                 <p>Patient ID: P- <?= $id ?></p>
               </div>
@@ -239,10 +241,10 @@
           </div>
           <div class="col-md-6">
             <div class="nav-links">
-              <a href="#"><i class="fas fa-home"></i> Dashboard</a>
-              <a href="#"><i class="fas fa-calendar-alt"></i> Appointments</a>
-              <a href="#"><i class="fas fa-file-medical"></i> Medical Records</a>
-              <a href="<?=base_url("index/logout")?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
+              <a href="<?=base_url( "index/dashboard")?>"><i class="fas fa-home"></i> Dashboard</a>
+              <a href="<?=base_url( "index/datashow_appoitment")?>"><i class="fas fa-calendar-alt"></i> Appointments</a>
+              <!-- <a href="#"><i class="fas fa-file-medical"></i> Medical Records</a> -->
+              <a href="<?=base_url( "index/logout")?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
           </div>
         </div>

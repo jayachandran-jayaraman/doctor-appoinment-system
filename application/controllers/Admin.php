@@ -5,11 +5,9 @@ class Admin extends CI_Controller
   {
     parent::__construct();
     $this->load->helper('url');
-    $this->load->library('form_validation');
-    $this->load->library('email');
+    $this->load->library(['form_validation', 'email', 'session']);
     $this->load->model('user_model');
     $this->load->database();
-    $this->load->library('session');
   }
 
   public function heropage()
@@ -22,25 +20,25 @@ class Admin extends CI_Controller
   // Doctor Registration
   public function doctor_signup()
   {
-    $this->load->view('admin/pages/doctor_signup_view');
+    $this->load->view('admin/pages/signup_view');
   }
 
   public function do_doctor_signup()
   {
+    
     $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[signup.email]', 
-      array('is_unique' => 'Email already exists!')
+      ['is_unique' => 'Email already exists!']
     );
-    $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-    $this->form_validation->set_rules('phone', 'Phone', 'required');
-
+    
     if ($this->form_validation->run() == FALSE) {
-      $this->load->view('admin/pages/doctor_signup_view');
+      $this->load->view('admin/pages/signup_view');
     } else {
       $data = [
         'firstname' => $this->input->post('name'),
         'email' => $this->input->post('email'),
         'phone' => $this->input->post('phone'),
-        'role' => 2, // Doctor role
+        'role' =>$this->input->post('role'),
+        'specialist' =>$this->input->post('spicialist'),
         'password' => $this->input->post('password'),
         'created_at' => date('Y-m-d H:i:s')
       ];
@@ -48,7 +46,7 @@ class Admin extends CI_Controller
       $response = $this->user_model->store_doctor($data);
       if ($response) {
         $this->session->set_flashdata('success', 'Doctor registered successfully!');
-        redirect('admin/doctor_login');
+        redirect('admin/login');
       } else {
         $this->session->set_flashdata('error', 'Failed to register doctor');
         $this->load->view('admin/pages/doctor_signup_view');
@@ -56,21 +54,19 @@ class Admin extends CI_Controller
     }
   }
 
-  // Admin Registration (Only for super admin)
+  // Admin Registration
+  /*
   public function admin_signup()
   {
-    // Check if user is super admin before allowing admin registration
-    if (!$this->session->userdata('role') == 1) {
+    if ($this->session->userdata('role') != 1) {
       redirect('admin/login');
     }
-    
     $this->load->view('admin/pages/admin_signup_view');
   }
 
   public function do_admin_signup()
   {
-    // Verify super admin privileges
-    if (!$this->session->userdata('role') == 1) {
+    if ($this->session->userdata('role') != 1) {
       redirect('admin/login');
     }
 
@@ -84,8 +80,8 @@ class Admin extends CI_Controller
         'firstname' => $this->input->post('name'),
         'email' => $this->input->post('email'),
         'phone' => $this->input->post('phone'),
-        'role' => 1, // Admin role
-        'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT), // Hash password for admin
+        'role' => 1,
+        'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
         'created_at' => date('Y-m-d H:i:s')
       ];
 
@@ -99,8 +95,9 @@ class Admin extends CI_Controller
       }
     }
   }
+    */
 
-  // Unified Login (for both admin and doctor)
+  // Unified Login
   public function login()
   {
     if ($this->session->has_userdata('id')) {
@@ -108,7 +105,7 @@ class Admin extends CI_Controller
       if ($role == 1) {
         redirect('admin/dashbord_admin');
       } else {
-        redirect('admin/dashbord_doctor');
+        redirect('admin/doctor_dashbord');
       }
     }
     $this->load->view('admin/pages/login_view');
@@ -127,13 +124,10 @@ class Admin extends CI_Controller
       $password = $this->input->post('password');
 
       $user = $this->user_model->getUser_admin($email);
-      
+
       if ($user) {
-        // For doctors: plain text comparison (consider hashing)
-        // For admins: use password_verify() if you hash admin passwords
         if ($user->role == 1) {
-          // Admin login - use password_verify if hashed
-          if (password_verify($password, $user->password)) {
+          if ($password == $user->password) {
             $this->set_user_session($user);
             redirect('admin/dashbord_admin');
           } else {
@@ -141,10 +135,9 @@ class Admin extends CI_Controller
             $this->load->view('admin/pages/login_view', $data);
           }
         } else {
-          // Doctor login - plain text (consider changing to hashing)
           if ($password == $user->password) {
             $this->set_user_session($user);
-            redirect('admin/dashbord_doctor');
+            redirect('admin/doctor_dashbord');
           } else {
             $data['error'] = 'Invalid password!';
             $this->load->view('admin/pages/login_view', $data);
@@ -168,27 +161,32 @@ class Admin extends CI_Controller
     ]);
   }
 
-  public function dashbord_doctor()
-  {
-    $this->check_doctor_access();
-    
-    $user_id = $this->session->userdata('id');
-    $data = $this->user_model->getUser_by_id_admin($user_id);
-
-    $this->load->view('admin/pages/template/header', $data);
-    $this->load->view('admin/pages/doctor_dashbord');
-    $this->load->view('admin/pages/template/footer');
-  }
-
   public function dashbord_admin()
   {
     $this->check_admin_access();
-    
+
     $user_id = $this->session->userdata('id');
     $data = $this->user_model->getUser_by_id_admin($user_id);
 
     $this->load->view('admin/pages/template/header', $data);
     $this->load->view('admin/pages/dashbord');
+    $this->load->view('admin/pages/template/footer');
+  }
+
+  public function doctor_dashbord()
+  {
+    $this->check_doctor_access();
+
+    $doctor_id = $this->session->userdata('id');
+    $dataapp = $this->user_model->getUser_by_id_admin($doctor_id);
+
+    $this->load->model('doctor_model');
+    $data['appointments'] = $this->doctor_model->getDoctorAppointments($doctor_id);
+
+    // $data = array_merge($dataapp, $data);
+
+    $this->load->view('admin/pages/template/header', $dataapp);
+    $this->load->view('admin/pages/doctor_dashbord', $data);
     $this->load->view('admin/pages/template/footer');
   }
 

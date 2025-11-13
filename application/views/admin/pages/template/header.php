@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patient Dashboard</title>
+  <title>Appointment Management</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -156,6 +156,16 @@
       color: #856404;
     }
     
+    .status-cancelled {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    .status-rescheduled {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+    
     /* Footer Styles */
     .dashboard-footer {
       background-color: var(--secondary-color);
@@ -213,6 +223,10 @@
       .footer-links a {
         margin: 0 10px;
       }
+      
+      .table-responsive {
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
@@ -225,17 +239,11 @@
           <div class="col-md-6">
             <div class="patient-info">
               <div class="patient-avatar">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user-md"></i>
               </div>
               <div class="patient-details">
-                <div>
-                <h3> <?= $firstname ?> </h3>
-                <p><?php 
-                if ($role ==1){ echo " Admin ";  } elseif ($role > 1){  echo "Doctor"; }else { echo "welcome "; }
-                              
-                ?>
-                </div>
-                Id-<?= $id ?></p>
+                <h3>Dr. <?= $firstname ?></h3>
+                <p>ID: <?= $id ?></p>
               </div>
             </div>
           </div>
@@ -251,4 +259,3 @@
       </div>
     </div>
   </header>
-
