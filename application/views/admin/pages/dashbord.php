@@ -282,42 +282,16 @@
   </style>
 </head>
 <body>
-  <!-- Header Section -->
-  <header class="dashboard-header">
-    <div class="container">
-      <div class="header-content">
-        <div class="row align-items-center">
-          <div class="col-md-6">
-            <div class="admin-info">
-              <div class="admin-avatar">
-                <i class="fas fa-user-shield"></i>
-              </div>
-              <div class="admin-details">
-                <h3>Admin Dashboard</h3>
-                <p>Manage your healthcare system efficiently</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="nav-links">
-              <a href="#"><i class="fas fa-home"></i> Dashboard</a>
-              <a href="#"><i class="fas fa-cog"></i> Settings</a>
-              <a href="<?=base_url("admin/logout")?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
+
 
   <!-- Main Content -->
   <div class="main-content">
     <div class="container">
       <!-- Three Dashboard Buttons -->
       <div class="btn-container">
-        <a href="<?= base_url('Admincontriller/merged_doctor_view_signup') ?>" class="dashboard-btn">View Patients</a>
-        <a href="<?= base_url('Admincontriller/showDoctors') ?>" class="dashboard-btn-outline">View Doctors</a>
-        <a href="<?= base_url('Admincontriller/merged_doctor_view_doc_db') ?>" class="dashboard-btn-outline">View Status</a>
+        <a href="<?= base_url('Admincontroller/merged_doctor_view_signup') ?>" class="dashboard-btn">View Patients</a>
+        <a href="<?= base_url('Admincontroller/showDoctors') ?>" class="dashboard-btn-outline">View Doctors</a>
+        <a href="<?= base_url('Admincontroller/merged_doctor_view_doc_db') ?>" class="dashboard-btn-outline">View Status</a>
       </div>
 
       <!-- Patients Table -->

@@ -43,14 +43,5 @@ class Patient_model extends CI_Model {
                         ->get()
                         ->row();
     }
-    // public function get_appointments_by_user_id_data($user_id){
-    //      return $this->db->select('doc_db.*, doctor.firstname AS doctor_name, doctor.specialist')
-    //                     ->from('doc_db')
-    //                     ->join('doctor', 'doc_db.doctor = doctor.id', 'left')
-    //                     ->where('doc_db.doctor', $user_id)
-    //                     ->get()
-    //                     ->result();
-    // }
-    
 }
 ?>

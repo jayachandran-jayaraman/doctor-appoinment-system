@@ -1,5 +1,5 @@
 <?php
-class Admincontriller extends CI_controller{
+class Admincontroller extends CI_controller{
     function __construct()
     {
         parent::__construct();

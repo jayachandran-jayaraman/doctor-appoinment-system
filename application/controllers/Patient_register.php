@@ -10,10 +10,6 @@ class Patient_register extends CI_Controller {
         $this->load->model(['patient_model', 'user_model']);
         $this->load->database();
     }
-
-   
-
-    // 📤 Submit appointment
     public function submit_details_patient() {
         if (!$this->input->post()) {
             show_error('Invalid request method', 400);
@@ -106,15 +102,5 @@ class Patient_register extends CI_Controller {
             echo json_encode(['success' => false, 'error' => 'Invalid ID']);
         }
     }
-    
-
-    // 🔧 Helper: get user data from session
-    // private function get_user_data() {
-    //     return [
-    //         'id'        => $this->session->userdata('id'),
-    //         'firstname' => $this->session->userdata('firstname'),
-    //         'email'     => $this->session->userdata('email')
-    //     ];
-    // }
 }
 ?>
