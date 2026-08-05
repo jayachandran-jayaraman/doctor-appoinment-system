@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Admin extends CI_Controller
 {
   public function __construct()
@@ -17,7 +19,6 @@ class Admin extends CI_Controller
     $this->load->view('admin/pages/template/footerhome');
   }
 
-  // Doctor Registration
   public function doctor_signup()
   {
     $this->load->view('admin/pages/signup_view');
@@ -25,79 +26,38 @@ class Admin extends CI_Controller
 
   public function do_doctor_signup()
   {
-    
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[signup.email]', 
+    $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[doctor.email]',
       ['is_unique' => 'Email already exists!']
     );
-    
+    $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+    $this->form_validation->set_rules('name', 'Name', 'required');
+    $this->form_validation->set_rules('phone', 'Phone', 'required');
+    $this->form_validation->set_rules('role', 'Role', 'required|in_list[1,2]');
+    $this->form_validation->set_rules('spicialist', 'Specialist', 'required');
+
     if ($this->form_validation->run() == FALSE) {
       $this->load->view('admin/pages/signup_view');
     } else {
       $data = [
-        'firstname' => $this->input->post('name'),
-        'email' => $this->input->post('email'),
-        'phone' => $this->input->post('phone'),
-        'role' =>$this->input->post('role'),
-        'specialist' =>$this->input->post('spicialist'),
-        'password' => $this->input->post('password'),
+        'firstname'  => $this->input->post('name'),
+        'email'      => $this->input->post('email'),
+        'phone'      => $this->input->post('phone'),
+        'role'       => $this->input->post('role'),
+        'specialist' => $this->input->post('spicialist'),
+        'password'   => $this->input->post('password'),
         'created_at' => date('Y-m-d H:i:s')
       ];
 
-      $response = $this->user_model->store_doctor($data);
-      if ($response) {
-        $this->session->set_flashdata('success', 'Doctor registered successfully!');
+      if ($this->user_model->store_doctor($data)) {
+        $this->session->set_flashdata('success', 'Account registered successfully!');
         redirect('admin/login');
       } else {
-        $this->session->set_flashdata('error', 'Failed to register doctor');
-        $this->load->view('admin/pages/doctor_signup_view');
+        $this->session->set_flashdata('error', 'Failed to register account');
+        $this->load->view('admin/pages/signup_view');
       }
     }
   }
 
-  // Admin Registration
-  /*
-  public function admin_signup()
-  {
-    if ($this->session->userdata('role') != 1) {
-      redirect('admin/login');
-    }
-    $this->load->view('admin/pages/admin_signup_view');
-  }
-
-  public function do_admin_signup()
-  {
-    if ($this->session->userdata('role') != 1) {
-      redirect('admin/login');
-    }
-
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[signup.email]');
-    $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
-
-    if ($this->form_validation->run() == FALSE) {
-      $this->load->view('admin/pages/admin_signup_view');
-    } else {
-      $data = [
-        'firstname' => $this->input->post('name'),
-        'email' => $this->input->post('email'),
-        'phone' => $this->input->post('phone'),
-        'role' => 1,
-        'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-        'created_at' => date('Y-m-d H:i:s')
-      ];
-
-      $response = $this->user_model->store_admin($data);
-      if ($response) {
-        $this->session->set_flashdata('success', 'Admin registered successfully!');
-        redirect('admin/dashbord_admin');
-      } else {
-        $this->session->set_flashdata('error', 'Failed to register admin');
-        $this->load->view('admin/pages/admin_signup_view');
-      }
-    }
-  }
-    */
-
-  // Unified Login
   public function login()
   {
     if ($this->session->has_userdata('id')) {
@@ -125,26 +85,15 @@ class Admin extends CI_Controller
 
       $user = $this->user_model->getUser_admin($email);
 
-      if ($user) {
+      if ($user && $password === $user->password) {
+        $this->set_user_session($user);
         if ($user->role == 1) {
-          if ($password == $user->password) {
-            $this->set_user_session($user);
-            redirect('admin/dashbord_admin');
-          } else {
-            $data['error'] = 'Invalid password!';
-            $this->load->view('admin/pages/login_view', $data);
-          }
+          redirect('admin/dashbord_admin');
         } else {
-          if ($password == $user->password) {
-            $this->set_user_session($user);
-            redirect('admin/doctor_dashbord');
-          } else {
-            $data['error'] = 'Invalid password!';
-            $this->load->view('admin/pages/login_view', $data);
-          }
+          redirect('admin/doctor_dashbord');
         }
       } else {
-        $data['error'] = 'No account exists with this email!';
+        $data['error'] = 'Invalid email or password!';
         $this->load->view('admin/pages/login_view', $data);
       }
     }
@@ -183,8 +132,6 @@ class Admin extends CI_Controller
     $this->load->model('doctor_model');
     $data['appointments'] = $this->doctor_model->getDoctorAppointments($doctor_id);
 
-    // $data = array_merge($dataapp, $data);
-
     $this->load->view('admin/pages/template/header', $dataapp);
     $this->load->view('admin/pages/doctor_dashbord', $data);
     $this->load->view('admin/pages/template/footer');
@@ -192,7 +139,7 @@ class Admin extends CI_Controller
 
   private function check_doctor_access()
   {
-    if (!$this->session->userdata('logged_in') || $this->session->userdata('role') < 2) {
+    if (!$this->session->userdata('logged_in') || $this->session->userdata('role') != 2) {
       redirect('admin/login');
     }
   }
@@ -211,4 +158,3 @@ class Admin extends CI_Controller
     redirect('admin/login');
   }
 }
-?>

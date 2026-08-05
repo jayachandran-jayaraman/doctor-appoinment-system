@@ -5,8 +5,8 @@
             <h1>Book Doctor Appointments Made Simple</h1>
             <p>Find the right specialist, book appointments instantly, and manage your healthcare all in one place.</p>
             <div class="hero-buttons">
-                <a href="#" class="btn btn-primary btn-large">Find a Doctor</a>
-                <a href="#" class="btn btn-outline btn-large">Learn More</a>
+                <a href="<?= base_url('index/login') ?>" class="btn btn-primary btn-large">Find a Doctor</a>
+                <a href="<?= base_url('index/signup') ?>" class="btn btn-outline btn-large">Sign Up</a>
             </div>
         </div>
     </section>
@@ -151,8 +151,8 @@
             <h2>Ready to Get Started?</h2>
             <p>Join thousands of patients and doctors who are already using MedCare to simplify healthcare management.</p>
             <div class="hero-buttons">
-                <a href="#" class="btn btn-primary btn-large">Sign Up Now</a>
-                <a href="" class="btn btn-outline btn-large">Contact Us</a>
+                <a href="<?= base_url('index/signup') ?>" class="btn btn-primary btn-large">Sign Up Now</a>
+                <a href="<?= base_url('login') ?>" class="btn btn-outline btn-large">Doctor / Admin Login</a>
             </div>
         </div>
     </section>

@@ -22,6 +22,12 @@
             </div>
 
             <div class="card-body">
+              <?php if ($this->session->flashdata('success')): ?>
+              <div class="alert alert-success"><?= $this->session->flashdata('success') ?></div>
+              <?php endif; ?>
+              <?php if ($this->session->flashdata('error')): ?>
+              <div class="alert alert-danger"><?= $this->session->flashdata('error') ?></div>
+              <?php endif; ?>
               <div class="table-responsive">
                 <table class="table table-hover">
                   <thead>
@@ -41,7 +47,7 @@
                           <td><?= htmlspecialchars($row->patient_name) ?></td>
                           <td><?= htmlspecialchars($row->phone) ?></td>
                           <td><?= htmlspecialchars($row->reason) ?></td>
-                          <td><?= htmlspecialchars($row->time) ?><?= htmlspecialchars($row->date) ?></td>
+                          <td><?= htmlspecialchars($row->time) ?> — <?= htmlspecialchars($row->date) ?></td>
                           
                           <td>
                             <?php

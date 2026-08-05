@@ -242,16 +242,19 @@
                 <i class="fas fa-user-md"></i>
               </div>
               <div class="patient-details">
-                <h3>Dr. <?= $firstname ?></h3>
+                <h3><?= ($this->session->userdata('role') == 1) ? 'Admin' : 'Dr.' ?> <?= $firstname ?></h3>
                 <p>ID: <?= $id ?></p>
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="nav-links">
-              <a href="#"><i class="fas fa-home"></i> Dashboard</a>
-              <a href="#"><i class="fas fa-calendar-alt"></i> Appointments</a>
-              <a href="#"><i class="fas fa-file-medical"></i> Medical Records</a>
+              <?php if ($this->session->userdata('role') == 1): ?>
+              <a href="<?= base_url('admin/dashbord_admin') ?>"><i class="fas fa-home"></i> Dashboard</a>
+              <?php else: ?>
+              <a href="<?= base_url('admin/doctor_dashbord') ?>"><i class="fas fa-home"></i> Dashboard</a>
+              <a href="<?= base_url('admin/doctor_dashbord') ?>"><i class="fas fa-calendar-alt"></i> Appointments</a>
+              <?php endif; ?>
               <a href="<?=base_url("admin/logout")?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
           </div>

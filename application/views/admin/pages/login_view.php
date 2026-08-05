@@ -188,6 +188,12 @@
 
 
             <!-- Flash message for errors -->
+            <?php if ($this->session->flashdata('success')): ?>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle me-2"></i>
+                <?= $this->session->flashdata('success') ?>
+            </div>
+            <?php endif; ?>
             <?php if (isset($error)): ?>
             <div class="alert alert-danger">
                 <i class="fas fa-exclamation-circle me-2"></i>
@@ -218,7 +224,7 @@
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="remember" name="remember">
                     <label class="form-check-label" for="remember">Remember me</label>
-                    <a href="index/forgot_password" class="float-end">Forgot password?</a>
+                    <a href="<?= base_url('index/forgot_password') ?>" class="float-end">Forgot password?</a>
                 </div>
 
                 <button type="submit" name ="submit" class="btn btn-login">

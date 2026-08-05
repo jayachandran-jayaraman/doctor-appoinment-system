@@ -1,54 +1,41 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
-| -------------------------------------------------------------------------
-| URI ROUTING
-| -------------------------------------------------------------------------
-| This file lets you re-map URI requests to specific controller functions.
-|
-| Typically there is a one-to-one relationship between a URL string
-| and its corresponding controller class/method. The segments in a
-| URL normally follow this pattern:
-|
-|	example.com/class/method/id/
-|
-| In some instances, however, you may want to remap this relationship
-| so that a different class/function is called than the one
-| corresponding to the URL.
-|
-| Please see the user guide for complete details:
-|
-|	https://codeigniter.com/userguide3/general/routing.html
-|
-| -------------------------------------------------------------------------
-| RESERVED ROUTES
-| -------------------------------------------------------------------------
-|
-| There are three reserved routes:
-|
-|	$route['default_controller'] = 'welcome';
-|
-| This route indicates which controller class should be loaded if the
-| URI contains no data. In the above example, the "welcome" class
-| would be loaded.
-|
-|	$route['404_override'] = 'errors/page_missing';
-|
-| This route will tell the Router which controller/method to use if those
-| provided in the URL cannot be matched to a valid route.
-|
-|	$route['translate_uri_dashes'] = FALSE;
-|
-| This is not exactly a route, but allows you to automatically route
-| controller and method names that contain dashes. '-' isn't a valid
-| class or method name character, so it requires translation.
-| When you set this option to TRUE, it will replace ALL dashes in the
-| controller and method URI segments.
-|
-| Examples:	my-controller/index	-> my_controller/index
-|		my-controller/my-method	-> my_controller/my_method
-*/
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'index/heropage';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+// Public routes
+$route['login'] = 'admin/login';
+$route['signup'] = 'index/signup';
+$route['patient/login'] = 'index/login';
+$route['patient/signup'] = 'index/signup';
+$route['patient/dashboard'] = 'index/dashboard';
+$route['patient/appointments'] = 'index/datashow_appoitment';
+$route['patient/appointment/(:num)'] = 'index/appointments_by_id/$1';
+$route['forgot-password'] = 'index/forgot_password';
+$route['send-password'] = 'index/send_password';
+
+// Admin routes
+$route['admin'] = 'admin/login';
+$route['admin/login'] = 'admin/login';
+$route['admin/signup'] = 'admin/doctor_signup';
+$route['admin/do_doctor_signup'] = 'admin/do_doctor_signup';
+$route['admin/do_login'] = 'admin/do_login';
+$route['admin/dashbord_admin'] = 'admin/dashbord_admin';
+$route['admin/doctor_dashbord'] = 'admin/doctor_dashbord';
+$route['admin/logout'] = 'admin/logout';
+$route['admin/patient_list'] = 'Admincontroller/merged_doctor_view_signup';
+$route['admin/doctor_list'] = 'Admincontroller/showDoctors';
+$route['admin/status_list'] = 'Admincontroller/merged_doctor_view_doc_db';
+
+// Patient registration & AJAX routes
+$route['patient_register/submit_details_patient'] = 'Patient_register/submit_details_patient';
+$route['patient_register/doctor_search'] = 'Patient_register/doctor_search';
+$route['patient_register/get_doctor_details'] = 'Patient_register/get_doctor_details';
+
+// Alias routes for user password reset pages
+$route['user/send_password'] = 'index/send_password';
+$route['user/login'] = 'index/login';
+$route['user/forgot_password'] = 'index/forgot_password';
+$route['user/signup'] = 'index/signup';

@@ -289,9 +289,9 @@
     <div class="container">
       <!-- Three Dashboard Buttons -->
       <div class="btn-container">
-        <a href="<?= base_url('Admincontroller/merged_doctor_view_signup') ?>" class="dashboard-btn">View Patients</a>
-        <a href="<?= base_url('Admincontroller/showDoctors') ?>" class="dashboard-btn-outline">View Doctors</a>
-        <a href="<?= base_url('Admincontroller/merged_doctor_view_doc_db') ?>" class="dashboard-btn-outline">View Status</a>
+        <a href="<?= base_url('admin/patient_list') ?>" class="dashboard-btn">View Patients</a>
+        <a href="<?= base_url('admin/doctor_list') ?>" class="dashboard-btn-outline">View Doctors</a>
+        <a href="<?= base_url('admin/status_list') ?>" class="dashboard-btn-outline">View Status</a>
       </div>
 
       <!-- Patients Table -->
@@ -359,25 +359,32 @@
               <tr>
                 <th>ID</th>
                 <th>Doctor Name</th>
-                <th>Patient ID</th>
+                <th>Patient Name</th>
+                <th>Date</th>
+                <th>Time</th>
                 <th>Reason For Visit</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
               <?php foreach ($patients as $doc): ?>
+              <?php
+                switch ($doc->status) {
+                  case '1': $statusClass = 'status-confirmed'; $statusText = 'Confirmed'; break;
+                  case '2': $statusClass = 'status-cancelled'; $statusText = 'Cancelled'; break;
+                  case '3': $statusClass = 'status-pending'; $statusText = 'Rescheduled'; break;
+                  default:  $statusClass = 'status-pending'; $statusText = 'Pending'; break;
+                }
+              ?>
               <tr>
                 <td><?= $doc->id ?></td>
-                <td><?= htmlspecialchars($doc->doctor) ?></td>
-                <td><?= htmlspecialchars($doc->User_id) ?></td>
-                <td><?= htmlspecialchars($doc->reason) ?></td>
+                <td><?= htmlspecialchars($doc->doctor_name ?? '') ?></td>
+                <td><?= htmlspecialchars($doc->patient_name ?? '') ?></td>
+                <td><?= htmlspecialchars($doc->date ?? '') ?></td>
+                <td><?= htmlspecialchars($doc->time ?? '') ?></td>
+                <td><?= htmlspecialchars($doc->reason ?? '') ?></td>
                 <td>
-                  <span class="status-badge 
-                    <?= $doc->status == 'confirmed' ? 'status-confirmed' : 
-                       ($doc->status == 'pending' ? 'status-pending' : 
-                       ($doc->status == 'cancelled' ? 'status-cancelled' : 'status-pending')) ?>">
-                    <?= htmlspecialchars($doc->status) ?>
-                  </span>
+                  <span class="status-badge <?= $statusClass ?>"><?= $statusText ?></span>
                 </td>
               </tr>
               <?php endforeach; ?>
