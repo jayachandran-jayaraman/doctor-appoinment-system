@@ -8,3 +8,5 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login'] = 'admin/login';
 $route['patient/login'] = 'index/login';
 $route['patient/signup'] = 'index/signup';
+
+$route['admin'] = 'Admincontroller / merged_doctor_view_doc_db';
