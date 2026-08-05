@@ -162,7 +162,7 @@
             <strong>Note:</strong> You will receive an email with a password reset link. The link will expire in 1 hour for security reasons.
         </div>
         
-        <form method="post" action="<?= base_url('user/send_password') ?>">
+        <form method="post" action="<?= base_url('index/send_password') ?>">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" class="input-field" placeholder="Enter your email address" required>
@@ -172,7 +172,7 @@
         </form>
         
         <div class="back-link">
-            <a href="<?= base_url('user/login') ?>">← Back to Login</a>
+            <a href="<?= base_url('index/login') ?>">← Back to Login</a>
         </div>
     </div>
 </body>

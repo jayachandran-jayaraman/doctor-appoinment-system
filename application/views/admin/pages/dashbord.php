@@ -289,9 +289,9 @@
     <div class="container">
       <!-- Three Dashboard Buttons -->
       <div class="btn-container">
-        <a href="<?= base_url('Admincontroller/merged_doctor_view_signup') ?>" class="dashboard-btn">View Patients</a>
-        <a href="<?= base_url('Admincontroller/showDoctors') ?>" class="dashboard-btn-outline">View Doctors</a>
-        <a href="<?= base_url('Admincontroller/merged_doctor_view_doc_db') ?>" class="dashboard-btn-outline">View Status</a>
+        <a href="<?= base_url('admin/patient_list') ?>" class="dashboard-btn">View Patients</a>
+        <a href="<?= base_url('admin/doctor_list') ?>" class="dashboard-btn-outline">View Doctors</a>
+        <a href="<?= base_url('admin/status_list') ?>" class="dashboard-btn-outline">View Status</a>
       </div>
 
       <!-- Patients Table -->
