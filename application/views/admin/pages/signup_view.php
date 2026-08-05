@@ -231,7 +231,7 @@
                 </div>
                 <div class="col-75 input-icon">
                     <i class="fas fa-user-doctor"></i>
-                    <input type="tel" id="spicialist" name="spicialist" placeholder="Enter your phone number" required>
+                    <input type="text" id="spicialist" name="spicialist" placeholder="e.g. Cardiologist, Dermatologist" required>
                 </div>
             </div>
             <div class="row">

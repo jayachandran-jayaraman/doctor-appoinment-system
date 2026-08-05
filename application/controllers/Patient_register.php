@@ -6,11 +6,17 @@ class Patient_register extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->helper('url');
-        $this->load->library(['form_validation', 'email', 'session']);
+        $this->load->library(['form_validation', 'session']);
         $this->load->model(['patient_model', 'user_model']);
         $this->load->database();
     }
+
     public function submit_details_patient() {
+        if (!$this->session->has_userdata('id')) {
+            redirect('index/login');
+            return;
+        }
+
         if (!$this->input->post()) {
             show_error('Invalid request method', 400);
             return;
@@ -23,7 +29,7 @@ class Patient_register extends CI_Controller {
 
         if ($this->form_validation->run() === FALSE) {
             $this->session->set_flashdata('error', validation_errors());
-            redirect('index/appointment_form');
+            redirect('index/dashboard');
             return;
         }
 
@@ -33,6 +39,7 @@ class Patient_register extends CI_Controller {
             'time'       => $this->input->post('time', TRUE),
             'reason'     => $this->input->post('reason', TRUE),
             'user_id'    => $this->session->userdata('id'),
+            'status'     => '0',
             'created_at' => date('Y-m-d H:i:s')
         ];
 
@@ -42,10 +49,9 @@ class Patient_register extends CI_Controller {
             $this->session->set_flashdata('error', 'Failed to book appointment.');
         }
 
-        redirect('index/appointments_by_id/' . $data['doctor']);
+        redirect('index/datashow_appoitment');
     }
 
-    // ✅ Date validation
     public function validate_date($date) {
         $d = DateTime::createFromFormat('Y-m-d', $date);
         if ($d && $d->format('Y-m-d') === $date && $d >= new DateTime('today')) {
@@ -55,7 +61,6 @@ class Patient_register extends CI_Controller {
         return FALSE;
     }
 
-    // 🔍 Doctor search (autocomplete)
     public function doctor_search() {
         if ($this->input->get('action') === 'search_doctor') {
             $term = trim($this->input->get('term', TRUE));
@@ -81,7 +86,6 @@ class Patient_register extends CI_Controller {
         }
     }
 
-    // 🔎 Doctor details by ID
     public function get_doctor_details() {
         header('Content-Type: application/json');
         $id = $this->input->post('id', TRUE);
@@ -103,4 +107,3 @@ class Patient_register extends CI_Controller {
         }
     }
 }
-?>
