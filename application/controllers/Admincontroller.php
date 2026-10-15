@@ -25,7 +25,7 @@ class Admincontroller extends CI_Controller
 
         $this->load->view('admin/pages/template/header', $header);
         $this->load->view('admin/pages/dashbord', $data);
-        $this->load->view('admin/pages/template/footer');
+        // $this->load->view('admin/pages/template/footer');
     }
 
     public function merged_doctor_view_signup()
@@ -38,7 +38,8 @@ class Admincontroller extends CI_Controller
     public function showDoctors()
     {
         $this->check_admin_access();
-        $data['doctors'] = $this->user_model->getAllDoctors();
+        // Order doctors by firstname A -> Z for display
+        $data['doctors'] = $this->user_model->getAllDoctors('firstname', 'ASC');
         $this->load_admin_dashboard($data);
     }
 

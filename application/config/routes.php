@@ -29,6 +29,14 @@ $route['admin/patient_list'] = 'Admincontroller/merged_doctor_view_signup';
 $route['admin/doctor_list'] = 'Admincontroller/showDoctors';
 $route['admin/status_list'] = 'Admincontroller/merged_doctor_view_doc_db';
 
+// Doctor-specific aliases (convenience)
+$route['doctor/login'] = 'admin/login';
+$route['doctor/signup'] = 'admin/doctor_signup';
+$route['doctor/do_signup'] = 'admin/do_doctor_signup';
+$route['doctor/do_login'] = 'admin/do_login';
+$route['doctor/dashboard'] = 'admin/doctor_dashbord';
+$route['doctor/logout'] = 'admin/logout';
+
 // Patient registration & AJAX routes
 $route['patient_register/submit_details_patient'] = 'Patient_register/submit_details_patient';
 $route['patient_register/doctor_search'] = 'Patient_register/doctor_search';

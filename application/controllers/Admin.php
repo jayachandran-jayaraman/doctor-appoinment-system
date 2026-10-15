@@ -16,7 +16,7 @@ class Admin extends CI_Controller
   {
     $this->load->view('admin/pages/template/headerhome');
     $this->load->view('admin/pages/heropage');
-    $this->load->view('admin/pages/template/footerhome');
+    // $this->load->view('admin/pages/template/footerhome');
   }
 
   public function doctor_signup()
@@ -26,7 +26,10 @@ class Admin extends CI_Controller
 
   public function do_doctor_signup()
   {
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[doctor.email]',
+    $this->form_validation->set_rules(
+      'email',
+      'Email',
+      'required|valid_email|is_unique[doctor.email]',
       ['is_unique' => 'Email already exists!']
     );
     $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
@@ -39,12 +42,12 @@ class Admin extends CI_Controller
       $this->load->view('admin/pages/signup_view');
     } else {
       $data = [
-        'firstname'  => $this->input->post('name'),
-        'email'      => $this->input->post('email'),
-        'phone'      => $this->input->post('phone'),
-        'role'       => $this->input->post('role'),
+        'firstname' => $this->input->post('name'),
+        'email' => $this->input->post('email'),
+        'phone' => $this->input->post('phone'),
+        'role' => $this->input->post('role'),
         'specialist' => $this->input->post('spicialist'),
-        'password'   => $this->input->post('password'),
+        'password' => $this->input->post('password'),
         'created_at' => date('Y-m-d H:i:s')
       ];
 

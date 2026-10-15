@@ -459,8 +459,8 @@
                     </ul>
                 </nav>
                 <div class="auth-buttons">
-                    <a href="<?=base_url('admin/login')?>" class="btn btn-outline">Log In</a>
-                    <a href="<?=base_url('admin/signup')?>" class="btn btn-primary">Sign Up</a>
+                    <a href="<?=base_url('doctor/login')?>" class="btn btn-outline">Doctor / Admin Log In</a>
+                    <a href="<?=base_url('doctor/signup')?>" class="btn btn-primary">Sign Up (Doctor)</a>
                 </div>
             </div>
         </div>
